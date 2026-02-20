@@ -1,4 +1,4 @@
-package com.food.toprecipes.domain.data
+package com.food.toprecipes.data
 
 sealed class DomainResult<out L, out R> {
     data class Error<L>(
@@ -20,6 +20,12 @@ inline fun <R> attempt(f: () -> R): DomainResult<Throwable, R> = try {
 } catch (error: Throwable) {
     error.error()
 }
+
+fun <L, R, R1> DomainResult<L, R>.map(f: (R) -> R1): DomainResult<L, R1> =
+    when (this) {
+        is DomainResult.Success -> f(value).success()
+        is DomainResult.Error -> this
+    }
 
 fun <L, R, L1> DomainResult<L, R>.mapError(f: (L) -> L1): DomainResult<L1, R> =
     when (this) {

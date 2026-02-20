@@ -1,4 +1,4 @@
-package com.food.toprecipes.domain.data
+package com.food.toprecipes.data
 
 sealed class DomainError() {
 
