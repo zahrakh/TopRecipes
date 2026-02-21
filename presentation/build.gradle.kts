@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
 }
@@ -44,7 +45,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // Compose BOM
     implementation(platform(libs.compose.bom))
@@ -67,4 +68,7 @@ dependencies {
 
     // Core Android
     implementation(libs.androidx.core.ktx)
+
+    // Coil for image loading
+    implementation(libs.coil.compose)
 }
