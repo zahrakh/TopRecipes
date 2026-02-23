@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleLeft
-import androidx.compose.material.icons.filled.OpenInNew
+import androidx.compose.material.icons.filled.InsertLink
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.layout.ContentScale
@@ -107,7 +107,7 @@ fun RecipeDetailsContent(
 
                 uiState.errorMessageResId != null -> {
                     ErrorView(
-                        message = stringResource(uiState.errorMessageResId!!),
+                        message = stringResource(uiState.errorMessageResId),
                         onRetry = onRetry
                     )
                 }
@@ -253,7 +253,7 @@ fun InstructionSection(
             shape = MaterialTheme.shapes.medium
         ) {
             Icon(
-                imageVector = Icons.Default.OpenInNew,
+                imageVector = Icons.Default.InsertLink,
                 contentDescription = null,
                 modifier = Modifier.size(18.dp)
             )
