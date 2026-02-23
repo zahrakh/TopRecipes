@@ -65,6 +65,9 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
+    // DataStore (theme preference for in-app dark/light toggle)
+    implementation(libs.datastore.preferences)
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

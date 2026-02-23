@@ -25,4 +25,9 @@
     <string name="recipes_list_item_title_untitled_fallback">Untitled Recipe</string>
     <string name="recipes_list_item_id_format">ID: %d</string>
 
+    <!-- Theme toggle (optional in-app dark/light) -->
+    <string name="theme_toggle_content_description">Theme (dark / light)</string>
+    <string name="theme_mode_system">System default</string>
+    <string name="theme_mode_light">Light</string>
+    <string name="theme_mode_dark">Dark</string>
 </resources>

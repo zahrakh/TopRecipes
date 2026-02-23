@@ -22,17 +22,14 @@ fun RecipesDTO.toDomain(): Recipe? = if (id != null && title != null) {
     Recipe(id = id, title = title, image = image, imageType = imageType)
 } else null
 
-fun RecipeDetailsResponseDTO.toDomain(recipeId: String): RecipeDetail {
-    Log.i("Zahra", "$title: $recipeId")
+fun RecipeDetailsResponseDTO.toDomain(recipeId: String): RecipeDetail = RecipeDetail(
+    title = title,
+    image = image,
+    sourceUrl = sourceUrl,
+    instructions = instructions,
+    ingredients = extendedIngredients.map { it.toDomain() },
+    recipeDetailId = recipeId
+)
 
-    return RecipeDetail(
-        title = title,
-        image = image,
-        sourceUrl = sourceUrl,
-        instructions = instructions,
-        ingredients = extendedIngredients.map { it.toDomain() },
-        recipeDetailId = recipeId
-    )
-}
 
 fun IngredientResponseDTO.toDomain(): Ingredient = Ingredient(original = original)

@@ -23,15 +23,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.food.toprecipes.presentation.R
+import com.food.toprecipes.presentation.theme.ThemeMode
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.food.toprecipes.model.Recipe
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SettingsBrightness
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipesListScreen(
     onRecipeClick: (Int) -> Unit,
+    onThemeModeChange: ((ThemeMode) -> Unit)? = null,
     viewModel: RecipesListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -50,7 +57,8 @@ fun RecipesListScreen(
     RecipesListContent(
         uiState = uiState,
         onRecipeClick = onRecipeClick,
-        onRetry = viewModel::loadRecipes
+        onRetry = viewModel::loadRecipes,
+        onThemeModeChange = onThemeModeChange
     )
 }
 
@@ -59,10 +67,57 @@ fun RecipesListScreen(
 private fun RecipesListContent(
     uiState: RecipesListUiState,
     onRecipeClick: (Int) -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    onThemeModeChange: ((ThemeMode) -> Unit)? = null
 ) {
+    var themeMenuExpanded by remember { mutableStateOf(false) }
     Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.recipes_list_screen_topbar_title)) }) }
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.recipes_list_screen_topbar_title)) },
+                actions = {
+                    if (onThemeModeChange != null) {
+                        Box {
+                            IconButton(
+                                onClick = { themeMenuExpanded = true },
+                                content = {
+                                    Icon(
+                                        imageVector = Icons.Default.SettingsBrightness,
+                                        contentDescription = stringResource(R.string.theme_toggle_content_description)
+                                    )
+                                }
+                            )
+                            DropdownMenu(
+                                expanded = themeMenuExpanded,
+                                onDismissRequest = { themeMenuExpanded = false }
+                            ) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.theme_mode_system)) },
+                                onClick = {
+                                    onThemeModeChange(ThemeMode.SYSTEM)
+                                    themeMenuExpanded = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.theme_mode_light)) },
+                                onClick = {
+                                    onThemeModeChange(ThemeMode.LIGHT)
+                                    themeMenuExpanded = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.theme_mode_dark)) },
+                                onClick = {
+                                    onThemeModeChange(ThemeMode.DARK)
+                                    themeMenuExpanded = false
+                                }
+                            )
+                            }
+                        }
+                    }
+                }
+            )
+        }
     ) { padding ->
         Box(
             modifier = Modifier

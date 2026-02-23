@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.food.toprecipes.presentation.composable.recipes.RecipeDetailsScreen
 import com.food.toprecipes.presentation.composable.recipes.RecipesListScreen
+import com.food.toprecipes.presentation.theme.ThemeMode
 import kotlinx.serialization.Serializable
 
 sealed interface RecipesRoute {
@@ -20,6 +21,7 @@ sealed interface RecipesRoute {
 @Composable
 fun RecipesNavHost(
     navController: NavHostController,
+    onThemeModeChange: ((ThemeMode) -> Unit)? = null
 ) {
     NavHost(
         navController = navController,
@@ -29,7 +31,8 @@ fun RecipesNavHost(
             RecipesListScreen(
                 onRecipeClick = { recipeId ->
                     navController.navigate(RecipesRoute.Details(recipeId))
-                }
+                },
+                onThemeModeChange = onThemeModeChange
             )
         }
         composable<RecipesRoute.Details> { backStackEntry ->
