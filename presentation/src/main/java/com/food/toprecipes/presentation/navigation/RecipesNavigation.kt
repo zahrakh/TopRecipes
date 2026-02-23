@@ -36,7 +36,7 @@ fun RecipesNavHost(
             )
         }
         composable<RecipesRoute.Details> { backStackEntry ->
-            val details: RecipesRoute.Details = backStackEntry.toRoute()//todo add test
+            val details: RecipesRoute.Details = backStackEntry.toRoute()
             RecipeDetailsScreen(
                 recipeId = details.recipeId,
                 onBackClick = { navController.popBackStack() }

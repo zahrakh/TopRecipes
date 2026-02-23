@@ -275,13 +275,12 @@ private fun launchCustomTab(context: Context, url: String) {
         intent.launchUrl(context, uri)
     } catch (e: Exception) {
         //todo should avoid general exception
-        //todo add to string file
-        Log.d("InstructionSection", e.message ?: "Exception: Cant open CustomTabsIntent")
+        Log.d("InstructionSection", e.message ?: context.getString(R.string.error_generic_load_web_fail))
         try {
             val browserIntent = Intent(Intent.ACTION_VIEW, uri)
             context.startActivity(browserIntent)
         } catch (finalException: Exception) {
-            Log.d("InstructionSection", finalException.message ?: "Exception: Cant open CustomTabsIntent")
+            Log.d("InstructionSection", finalException.message ?: context.getString(R.string.error_generic_load_web_fail))
             Toast.makeText(context, context.getString(R.string.recipe_details_screen_toast_no_browser_found), Toast.LENGTH_LONG).show()
         }
     }

@@ -12,10 +12,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "theme_preferences")
-
-private val THEME_MODE_KEY = stringPreferencesKey("theme_mode")
-
 class ThemePreferencesImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ThemePreferences {
@@ -44,3 +40,7 @@ class ThemePreferencesImpl @Inject constructor(
         private const val THEME_MODE_DARK = "dark"
     }
 }
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "theme_preferences")
+
+private val THEME_MODE_KEY = stringPreferencesKey("theme_mode")

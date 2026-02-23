@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  * Persists and exposes the user's theme preference (system/light/dark).
- * Used for the optional in-app theme toggle.
+ * setThemeMode is Used for the optional in-app theme toggle.
  */
 interface ThemePreferences {
     val themeMode: Flow<ThemeMode>

@@ -43,8 +43,8 @@ class RecipesListViewModel @Inject constructor(
 
 
      // Loads recipes from the API.
-     // parameter reset If true, loads from offset 0 and replaces the list (initial load / retry).
-     //                 If false, loads the next page and appends (pagination).
+     // parameter reset If true, loads from offset 0 and replaces the list.
+     // If false, loads the next page and appends (pagination).
 
     fun loadRecipes(reset: Boolean = true) {
         if (reset) {

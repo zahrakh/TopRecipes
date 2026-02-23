@@ -13,6 +13,7 @@
     <string name="error_connection_timeout">Connection timeout. Please try again.</string>
     <string name="error_service_unavailable">Service unavailable. Please try later.</string>
     <string name="error_generic_load_failed">Something went wrong. Please try again.</string>
+    <string name="error_generic_load_web_fail">Exception: can not open CustomTabsIntent.</string>
     <string name="error_unsafe_link_blocked">Unsafe link blocked</string>
 
     <!-- Error View (generic) -->

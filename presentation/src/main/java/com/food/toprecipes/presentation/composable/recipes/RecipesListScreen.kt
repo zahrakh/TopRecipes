@@ -33,6 +33,7 @@ import androidx.compose.material.icons.filled.SettingsBrightness
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -133,7 +134,7 @@ private fun RecipesListContent(
 
                 uiState.errorMessageResId != null && uiState.recipes.isEmpty() -> {
                     ErrorView(
-                        message = stringResource(uiState.errorMessageResId!!),
+                        message = stringResource(uiState.errorMessageResId),
                         onRetry = onRetry
                     )
                 }
@@ -213,16 +214,14 @@ fun RecipeItem(
             modifier = Modifier.padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // High-Standard 3: Handle image loading states (placeholder/error)
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(recipe.image)
                     .crossfade(true)
                     .build(),
                 contentDescription = recipe.title,
-                //todo add placeholder icons
-//                placeholder = painterResource(R.drawable.ic_placeholder_recipe),
-//                error = painterResource(R.drawable.ic_error_image),
+                placeholder = painterResource(R.drawable.ic_placeholder_recipe),
+                error = painterResource(R.drawable.ic_error_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(100.dp)

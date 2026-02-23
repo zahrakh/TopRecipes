@@ -1,7 +1,6 @@
 package com.food.toprecipes.presentation.composable.recipes
 
 import androidx.lifecycle.viewModelScope
-import com.food.toprecipes.data.DomainError
 import com.food.toprecipes.data.DomainResult
 import com.food.toprecipes.model.RecipeDetail
 import com.food.toprecipes.presentation.base.BaseViewModel
@@ -15,7 +14,6 @@ import javax.inject.Inject
 data class RecipeDetailsUiState(
     val isLoading: Boolean = false,
     val recipeDetail: RecipeDetail? = null,
-    /** String resource ID for error message; null when no error. */
     val errorMessageResId: Int? = null
 )
 
@@ -41,6 +39,7 @@ class RecipeDetailsViewModel @Inject constructor(
                 is DomainResult.Success -> {
                     setState { copy(isLoading = false, recipeDetail = result.value) }
                 }
+
                 is DomainResult.Error -> {
                     val resId = DomainErrorToMessageMapper.toMessageResId(result.value)
                     setState { copy(isLoading = false, errorMessageResId = resId) }
