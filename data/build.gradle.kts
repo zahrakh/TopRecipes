@@ -80,4 +80,9 @@ dependencies {
 
     // Core Android
     implementation(libs.androidx.core.ktx)
+
+    // Unit tests
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
 }
