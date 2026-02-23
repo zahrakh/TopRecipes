@@ -8,37 +8,27 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/**
- * Base ViewModel with UiState and UiEffect pattern.
- *
- * @param UiState The state class that represents the UI state
- * @param UiEffect The sealed class/interface that represents one-time UI effects (e.g., navigation, showing snackbars)
- */
+// Base ViewModel with UiState and UiEffect pattern for state management
 abstract class BaseViewModel<UiState, UiEffect> : ViewModel() {
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(initialState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    private val _uiEffect: MutableSharedFlow<UiEffect> = MutableSharedFlow()
+    private val _uiEffect: MutableSharedFlow<UiEffect> = MutableSharedFlow()//todo consider to change it to Channel
     val uiEffect: SharedFlow<UiEffect> = _uiEffect.asSharedFlow()
 
-    /**
-     * Returns the initial state for the ViewModel
-     */
     protected abstract fun initialState(): UiState
 
-    /**
-     * Updates the current UI state
-     */
-    protected fun setState(update: UiState.() -> UiState) {
-        _uiState.value = _uiState.value.update()
+    protected fun setState(update: UiState.() -> UiState) { //Function Type with Receiver
+        //.update is Atomic which makes it Thread_safee
+        _uiState.update { currentState->
+            currentState.update()
+        }
     }
 
-    /**
-     * Emits a one-time UI effect
-     */
     protected fun setEffect(effect: UiEffect) {
         viewModelScope.launch {
             _uiEffect.emit(effect)

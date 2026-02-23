@@ -1,5 +1,6 @@
 package com.food.toprecipes.mapper
 
+import android.util.Log
 import com.food.toprecipes.model.Ingredient
 import com.food.toprecipes.model.Recipe
 import com.food.toprecipes.model.RecipeDetail
@@ -21,12 +22,17 @@ fun RecipesDTO.toDomain(): Recipe? = if (id != null && title != null) {
     Recipe(id = id, title = title, image = image, imageType = imageType)
 } else null
 
-fun RecipeDetailsResponseDTO.toDomain(): RecipeDetail = RecipeDetail(
-    title = title,
-    image = image,
-    sourceUrl = sourceUrl,
-    instructions = instructions,
-    ingredients = extendedIngredients.map { it.toDomain() }
-)
+fun RecipeDetailsResponseDTO.toDomain(recipeId: String): RecipeDetail {
+    Log.i("Zahra", "$title: $recipeId")
+
+    return RecipeDetail(
+        title = title,
+        image = image,
+        sourceUrl = sourceUrl,
+        instructions = instructions,
+        ingredients = extendedIngredients.map { it.toDomain() },
+        recipeDetailId = recipeId
+    )
+}
 
 fun IngredientResponseDTO.toDomain(): Ingredient = Ingredient(original = original)

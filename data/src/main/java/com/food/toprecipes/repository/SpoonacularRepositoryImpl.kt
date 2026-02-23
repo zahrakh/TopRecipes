@@ -19,6 +19,7 @@ class SpoonacularRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getRecipeDetails(recipeId: String): DomainResult<DomainError, RecipeDetail> {
-        return remoteDataSource.getRecipesDetailsResponse(recipeId).map { it.toDomain() }
+        return remoteDataSource.getRecipesDetailsResponse(recipeId).map { it.toDomain(recipeId) }
+        //todo check : is t correct to pass ID as a details ID
     }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Recipe Details Screen -->
+    <string name="recipe_details_screen_topbar_title_fallback">Details</string>
+    <string name="recipe_details_screen_nav_back_content_description">Back</string>
+    <string name="recipe_details_screen_ingredients_section_title">Ingredients</string>
+    <string name="recipe_details_screen_instructions_section_title">Instructions</string>
+    <string name="recipe_details_screen_instructions_empty_placeholder">No step-by-step instructions available for this recipe.</string>
+    <string name="recipe_details_screen_button_view_full_recipe_source">View Full Recipe Source</string>
+    <string name="recipe_details_screen_toast_no_browser_found">No browser found to open link</string>
+
+    <!-- Generic errors (single mapper: DomainErrorToMessageMapper) -->
+    <string name="error_connection_timeout">Connection timeout. Please try again.</string>
+    <string name="error_service_unavailable">Service unavailable. Please try later.</string>
+    <string name="error_generic_load_failed">Something went wrong. Please try again.</string>
+    <string name="error_unsafe_link_blocked">Unsafe link blocked</string>
+
+    <!-- Error View (generic) -->
+    <string name="error_view_title_something_went_wrong">Something went wrong</string>
+    <string name="error_view_icon_content_description">Error Icon</string>
+    <string name="error_view_button_retry">Retry</string>
+
+    <!-- Recipes List Screen -->
+    <string name="recipes_list_screen_topbar_title">Top Recipes</string>
+    <string name="recipes_list_item_title_untitled_fallback">Untitled Recipe</string>
+    <string name="recipes_list_item_id_format">ID: %d</string>
+
+</resources>

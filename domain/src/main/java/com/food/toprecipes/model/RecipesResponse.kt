@@ -16,6 +16,7 @@ data class Recipe(
 
 
 data class RecipeDetail(
+    val recipeDetailId: String,
     val title: String,
     val image: String,
     val sourceUrl: String,
