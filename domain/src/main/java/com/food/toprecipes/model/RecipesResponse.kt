@@ -21,7 +21,8 @@ data class RecipeDetail(
     val image: String,
     val sourceUrl: String,
     val instructions: String?,
-    val ingredients: List<Ingredient>
+    val ingredients: List<Ingredient>,
+    val isFavorite: Boolean = false
 )
 
 data class Ingredient(

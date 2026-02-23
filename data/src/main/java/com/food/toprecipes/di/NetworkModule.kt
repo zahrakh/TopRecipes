@@ -5,8 +5,9 @@ import android.util.Log
 import com.food.toprecipes.ApiService
 import com.food.toprecipes.ApiService.Companion.BASE_URL
 import com.food.toprecipes.data.BuildConfig
-import com.food.toprecipes.repository.SpoonacularRepositoryImpl
+import com.food.toprecipes.localdata.RecipeLocalDataSource
 import com.food.toprecipes.repository.SpoonacularRepository
+import com.food.toprecipes.repository.SpoonacularRepositoryImpl
 import com.food.toprecipes.remotedata.DomainErrorMapper
 import com.food.toprecipes.spoonacularapi.SpoonacularRemoteDataSource
 import com.food.toprecipes.spoonacularapi.SpoonacularRemoteDataSourceImp
@@ -97,9 +98,10 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideSpoonacularRepository(
-        remoteDataSource: SpoonacularRemoteDataSource
+        remoteDataSource: SpoonacularRemoteDataSource,
+        localDataSource: RecipeLocalDataSource
     ): SpoonacularRepository {
-        return SpoonacularRepositoryImpl(remoteDataSource)
+        return SpoonacularRepositoryImpl(remoteDataSource, localDataSource)
     }
 
 }
