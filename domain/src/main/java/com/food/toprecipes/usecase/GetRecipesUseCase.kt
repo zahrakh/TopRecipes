@@ -12,7 +12,8 @@ class GetRecipesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         offset: Int = 0,
-        number: Int = 10
+        number: Int = 10,
+        query: String = ""
     ): DomainResult<DomainError, RecipesResponse> =
-        repository.getRecipes(offset = offset, number = number)
+        repository.getRecipes(offset = offset, number = number, query = query)
 }

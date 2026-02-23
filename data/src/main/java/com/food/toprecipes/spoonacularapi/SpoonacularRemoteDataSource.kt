@@ -7,6 +7,11 @@ import com.food.toprecipes.remotedata.RecipesResponseDTO
 
 // Fetches data from Spoonacular API and handles network errors
 interface SpoonacularRemoteDataSource {
-    suspend fun getRecipesResponse(offset: Int = 0, number: Int = 10): DomainResult<DomainError, RecipesResponseDTO>
+    suspend fun getRecipesResponse(
+        offset: Int = 0,
+        number: Int = 10,
+        query: String = ""
+    ): DomainResult<DomainError, RecipesResponseDTO>
+
     suspend fun getRecipesDetailsResponse(id: String): DomainResult<DomainError, RecipeDetailsResponseDTO>
 }

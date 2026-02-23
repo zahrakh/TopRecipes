@@ -15,7 +15,8 @@ interface ApiService {
     @GET("recipes/complexSearch")
     suspend fun getRecipes(
         @Query("offset") offset: Int = 0,
-        @Query("number") number: Int = 10
+        @Query("number") number: Int = 10,
+        @Query("query") query: String = ""
     ): RecipesResponseDTO
 
     @GET("https://api.spoonacular.com/recipes/{recipeId}/information")

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,8 +28,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.food.toprecipes.model.Recipe
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SettingsBrightness
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -59,6 +63,8 @@ fun RecipesListScreen(
         onRecipeClick = onRecipeClick,
         onRetry = viewModel::loadRecipes,
         onLoadMore = { viewModel.loadRecipes(reset = false) },
+        onSearchQueryChange = viewModel::updateSearchQuery,
+        onSearchSubmit = { viewModel.loadRecipes(reset = true) },
         onThemeModeChange = onThemeModeChange
     )
 }
@@ -70,9 +76,17 @@ private fun RecipesListContent(
     onRecipeClick: (Int) -> Unit,
     onRetry: () -> Unit,
     onLoadMore: () -> Unit,
+    onSearchQueryChange: (String) -> Unit,
+    onSearchSubmit: () -> Unit,
     onThemeModeChange: ((ThemeMode) -> Unit)? = null
 ) {
     var themeMenuExpanded by remember { mutableStateOf(false) }
+    // Local state for the search field so typing doesn't update ViewModel and recompose the whole list.
+    // ViewModel.searchQuery is updated only on submit; we sync it back here when it changes (e.g. after submit).
+    var searchInput by remember { mutableStateOf(uiState.searchQuery) }
+    LaunchedEffect(uiState.searchQuery) {
+        searchInput = uiState.searchQuery
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -121,31 +135,63 @@ private fun RecipesListContent(
             )
         }
     ) { padding ->
-        Box(
+        Column(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
         ) {
-            when {
-                uiState.isLoading && uiState.recipes.isEmpty() -> {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                }
+            OutlinedTextField(
+                value = searchInput,
+                onValueChange = { searchInput = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                placeholder = { Text(stringResource(R.string.recipes_list_search_hint)) },
+                singleLine = true,
+                maxLines = 1,
+                trailingIcon = {
+                    IconButton(
+                        onClick = {
+                            onSearchQueryChange(searchInput)
+                            onSearchSubmit()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = stringResource(R.string.recipes_list_search_content_description)
+                        )
+                    }
+                },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        onSearchQueryChange(searchInput)
+                        onSearchSubmit()
+                    }
+                )
+            )
+            Box(modifier = Modifier.fillMaxSize()) {
+                when {
+                    uiState.isLoading && uiState.recipes.isEmpty() -> {
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    }
 
-                uiState.errorMessageResId != null && uiState.recipes.isEmpty() -> {
-                    ErrorView(
-                        message = stringResource(uiState.errorMessageResId),
-                        onRetry = onRetry
-                    )
-                }
+                    uiState.errorMessageResId != null && uiState.recipes.isEmpty() -> {
+                        ErrorView(
+                            message = stringResource(uiState.errorMessageResId!!),
+                            onRetry = onRetry
+                        )
+                    }
 
-                else -> {
-                    RecipeList(
-                        recipes = uiState.recipes,
-                        onRecipeClick = onRecipeClick,
-                        hasMore = uiState.hasMore,
-                        isLoadingMore = uiState.isLoadingMore,
-                        onLoadMore = onLoadMore
-                    )
+                    else -> {
+                        RecipeList(
+                            recipes = uiState.recipes,
+                            onRecipeClick = onRecipeClick,
+                            hasMore = uiState.hasMore,
+                            isLoadingMore = uiState.isLoadingMore,
+                            onLoadMore = onLoadMore
+                        )
+                    }
                 }
             }
         }

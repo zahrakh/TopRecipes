@@ -23,6 +23,8 @@
 
     <!-- Recipes List Screen -->
     <string name="recipes_list_screen_topbar_title">Top Recipes</string>
+    <string name="recipes_list_search_hint">Search recipes…</string>
+    <string name="recipes_list_search_content_description">Search recipes</string>
     <string name="recipes_list_item_title_untitled_fallback">Untitled Recipe</string>
     <string name="recipes_list_item_id_format">ID: %d</string>
 

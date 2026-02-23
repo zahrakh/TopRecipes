@@ -16,9 +16,10 @@ class SpoonacularRepositoryImpl @Inject constructor(
 
     override suspend fun getRecipes(
         offset: Int,
-        number: Int
+        number: Int,
+        query: String
     ): DomainResult<DomainError, RecipesResponse> {
-        return remoteDataSource.getRecipesResponse(offset = offset, number = number)
+        return remoteDataSource.getRecipesResponse(offset = offset, number = number, query = query)
             .map { it.toDomain() }
     }
 

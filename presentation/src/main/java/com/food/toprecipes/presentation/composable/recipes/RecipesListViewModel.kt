@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 data class RecipesListUiState(
     val recipes: List<Recipe> = emptyList(),
+    val searchQuery: String = "",
     val isLoading: Boolean = false,
     val isLoadingMore: Boolean = false,
     // Next offset to request (current size of loaded recipes)
@@ -42,9 +43,9 @@ class RecipesListViewModel @Inject constructor(
     }
 
 
-     // Loads recipes from the API.
-     // parameter reset If true, loads from offset 0 and replaces the list.
-     // If false, loads the next page and appends (pagination).
+    // Loads recipes from the API.
+    // parameter reset If true, loads from offset 0 and replaces the list.
+    // If false, loads the next page and appends (pagination).
 
     fun loadRecipes(reset: Boolean = true) {
         if (reset) {
@@ -56,9 +57,11 @@ class RecipesListViewModel @Inject constructor(
         }
 
         val offset = if (reset) 0 else uiState.value.nextOffset
+        val query = uiState.value.searchQuery.trim()
 
         viewModelScope.launch {
-            when (val result = getRecipesUseCase(offset = offset, number = PAGE_SIZE)) {
+            when (val result =
+                getRecipesUseCase(offset = offset, number = PAGE_SIZE, query = query)) {
                 is DomainResult.Success -> {
                     val resp = result.value
                     val nextOffset = (resp.offset ?: offset) + resp.recipes.size
@@ -82,6 +85,7 @@ class RecipesListViewModel @Inject constructor(
                         }
                     }
                 }
+
                 is DomainResult.Error -> {
                     val resId = DomainErrorToMessageMapper.toMessageResId(result.value)
                     setState {
@@ -96,5 +100,10 @@ class RecipesListViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateSearchQuery(query: String) {
+        setState { copy(searchQuery = query) }
+    }
 }
+
 private const val PAGE_SIZE = 10

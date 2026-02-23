@@ -11,7 +11,11 @@ import com.food.toprecipes.model.RecipesResponse
  */
 interface SpoonacularRepository {
 
-    suspend fun getRecipes(offset: Int = 0, number: Int = 10): DomainResult<DomainError, RecipesResponse>
+    suspend fun getRecipes(
+        offset: Int = 0,
+        number: Int = 10,
+        query: String = ""
+    ): DomainResult<DomainError, RecipesResponse>
 
     suspend fun getRecipeDetails(recipeId: String): DomainResult<DomainError, RecipeDetail>
 }
