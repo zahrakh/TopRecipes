@@ -45,6 +45,10 @@ datastore = "1.1.1"
 # KSP (replaces kapt for Room)
 ksp = "2.0.21-1.0.27"
 
+# Testing
+mockk = "1.13.13"
+coroutines-test = "1.9.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -100,6 +104,10 @@ browser = { group = "androidx.browser", name = "browser", version.ref = "browser
 
 # DataStore
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+
+# Testing
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

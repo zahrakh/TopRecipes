@@ -40,5 +40,10 @@ dependencies {
 
     // Coroutines (for Flow in repository)
     implementation(libs.coroutines.core)
+
+    // Unit tests
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
 }
 
