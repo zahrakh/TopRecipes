@@ -70,6 +70,7 @@ Data and presentation both depend only on domain, so we can swap or mock the dat
 - **Testing** – More UI/Compose tests and edge cases (empty states, rotation). 
 - **DI** – Some modules are a bit large; could be split for readability.
 - **Analytics / logging** – No analytics or structured logging yet; could be added for debugging and product metrics.
+- **UI** – Navigation button and separate UI for theme and fave menu.
 
 ---
 
