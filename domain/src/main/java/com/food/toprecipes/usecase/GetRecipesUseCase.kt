@@ -9,6 +9,10 @@ import javax.inject.Inject
 // UseCase to get list of the recipes
 class GetRecipesUseCase @Inject constructor(
     private val repository: SpoonacularRepository
-){
-    suspend operator fun invoke(): DomainResult<DomainError, RecipesResponse> = repository.getRecipes()
+) {
+    suspend operator fun invoke(
+        offset: Int = 0,
+        number: Int = 10
+    ): DomainResult<DomainError, RecipesResponse> =
+        repository.getRecipes(offset = offset, number = number)
 }

@@ -58,6 +58,7 @@ fun RecipesListScreen(
         uiState = uiState,
         onRecipeClick = onRecipeClick,
         onRetry = viewModel::loadRecipes,
+        onLoadMore = { viewModel.loadRecipes(reset = false) },
         onThemeModeChange = onThemeModeChange
     )
 }
@@ -68,6 +69,7 @@ private fun RecipesListContent(
     uiState: RecipesListUiState,
     onRecipeClick: (Int) -> Unit,
     onRetry: () -> Unit,
+    onLoadMore: () -> Unit,
     onThemeModeChange: ((ThemeMode) -> Unit)? = null
 ) {
     var themeMenuExpanded by remember { mutableStateOf(false) }
@@ -91,27 +93,27 @@ private fun RecipesListContent(
                                 expanded = themeMenuExpanded,
                                 onDismissRequest = { themeMenuExpanded = false }
                             ) {
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.theme_mode_system)) },
-                                onClick = {
-                                    onThemeModeChange(ThemeMode.SYSTEM)
-                                    themeMenuExpanded = false
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.theme_mode_light)) },
-                                onClick = {
-                                    onThemeModeChange(ThemeMode.LIGHT)
-                                    themeMenuExpanded = false
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.theme_mode_dark)) },
-                                onClick = {
-                                    onThemeModeChange(ThemeMode.DARK)
-                                    themeMenuExpanded = false
-                                }
-                            )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.theme_mode_system)) },
+                                    onClick = {
+                                        onThemeModeChange(ThemeMode.SYSTEM)
+                                        themeMenuExpanded = false
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.theme_mode_light)) },
+                                    onClick = {
+                                        onThemeModeChange(ThemeMode.LIGHT)
+                                        themeMenuExpanded = false
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.theme_mode_dark)) },
+                                    onClick = {
+                                        onThemeModeChange(ThemeMode.DARK)
+                                        themeMenuExpanded = false
+                                    }
+                                )
                             }
                         }
                     }
@@ -139,7 +141,10 @@ private fun RecipesListContent(
                 else -> {
                     RecipeList(
                         recipes = uiState.recipes,
-                        onRecipeClick = onRecipeClick
+                        onRecipeClick = onRecipeClick,
+                        hasMore = uiState.hasMore,
+                        isLoadingMore = uiState.isLoadingMore,
+                        onLoadMore = onLoadMore
                     )
                 }
             }
@@ -152,19 +157,38 @@ private fun RecipesListContent(
 fun RecipeList(
     recipes: List<Recipe>,
     onRecipeClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    hasMore: Boolean = false,
+    isLoadingMore: Boolean = false,
+    onLoadMore: () -> Unit = {}
 ) {
-
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(recipes) { recipe ->
+        items(recipes.size, key = { recipes[it].id }) { index ->
             RecipeItem(
-                recipe = recipe,
-                onClick = { onRecipeClick(recipe.id) }
+                recipe = recipes[index],
+                onClick = { onRecipeClick(recipes[index].id) }
             )
+        }
+        if (hasMore) {
+            item(key = "load_more") {
+                LaunchedEffect(Unit) {
+                    onLoadMore()
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (isLoadingMore) {
+                        CircularProgressIndicator(modifier = Modifier.size(32.dp))
+                    }
+                }
+            }
         }
     }
 }
@@ -211,7 +235,8 @@ fun RecipeItem(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = recipe.title?.takeIf { it.isNotBlank() } ?: stringResource(R.string.recipes_list_item_title_untitled_fallback),
+                    text = recipe.title?.takeIf { it.isNotBlank() }
+                        ?: stringResource(R.string.recipes_list_item_title_untitled_fallback),
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -221,7 +246,6 @@ fun RecipeItem(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 recipe.id.let { //todo check to see if I must show Id or not? and if Id can be null or not!
-
                     Text(
                         text = stringResource(R.string.recipes_list_item_id_format, recipe.id),
                         style = MaterialTheme.typography.bodySmall,

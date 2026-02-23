@@ -14,12 +14,15 @@ class SpoonacularRepositoryImpl @Inject constructor(
     private val remoteDataSource: SpoonacularRemoteDataSource
 ) : SpoonacularRepository {
 
-    override suspend fun getRecipes(): DomainResult<DomainError, RecipesResponse> {
-        return remoteDataSource.getRecipesResponse().map { it.toDomain() }
+    override suspend fun getRecipes(
+        offset: Int,
+        number: Int
+    ): DomainResult<DomainError, RecipesResponse> {
+        return remoteDataSource.getRecipesResponse(offset = offset, number = number)
+            .map { it.toDomain() }
     }
 
-    override suspend fun getRecipeDetails(recipeId: String): DomainResult<DomainError, RecipeDetail> {
-        return remoteDataSource.getRecipesDetailsResponse(recipeId).map { it.toDomain(recipeId) }
-        //todo check : is t correct to pass ID as a details ID
-    }
+    override suspend fun getRecipeDetails(recipeId: String): DomainResult<DomainError, RecipeDetail> =
+        remoteDataSource.getRecipesDetailsResponse(recipeId).map { it.toDomain(recipeId) }
+
 }

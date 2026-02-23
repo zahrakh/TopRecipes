@@ -14,8 +14,8 @@ class SpoonacularRemoteDataSourceImp @Inject constructor(
     private val service: ApiService,
     private val errorMapper: DomainErrorMapper,
 ) : SpoonacularRemoteDataSource {
-    override suspend fun getRecipesResponse(): DomainResult<DomainError, RecipesResponseDTO> =
-        attempt { service.getRecipes() }.mapError { errorMapper.mapError(it) }
+    override suspend fun getRecipesResponse(offset: Int, number: Int): DomainResult<DomainError, RecipesResponseDTO> =
+        attempt { service.getRecipes(offset = offset, number = number) }.mapError { errorMapper.mapError(it) }
 
     override suspend fun getRecipesDetailsResponse(id: String): DomainResult<DomainError, RecipeDetailsResponseDTO> =
         attempt { service.getRecipesDetails(id) }.mapError { errorMapper.mapError(it) }
