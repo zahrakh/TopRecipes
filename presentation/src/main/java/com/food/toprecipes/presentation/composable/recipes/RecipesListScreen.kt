@@ -30,6 +30,7 @@ import coil.request.ImageRequest
 import com.food.toprecipes.model.Recipe
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SettingsBrightness
 import androidx.compose.ui.text.input.ImeAction
@@ -42,6 +43,7 @@ import androidx.compose.ui.res.painterResource
 @Composable
 fun RecipesListScreen(
     onRecipeClick: (Int) -> Unit,
+    onNavigateToFavorites: () -> Unit = {},
     onThemeModeChange: ((ThemeMode) -> Unit)? = null,
     viewModel: RecipesListViewModel = hiltViewModel()
 ) {
@@ -65,6 +67,7 @@ fun RecipesListScreen(
         onLoadMore = { viewModel.loadRecipes(reset = false) },
         onSearchQueryChange = viewModel::updateSearchQuery,
         onSearchSubmit = { viewModel.loadRecipes(reset = true) },
+        onNavigateToFavorites = onNavigateToFavorites,
         onThemeModeChange = onThemeModeChange
     )
 }
@@ -78,6 +81,7 @@ private fun RecipesListContent(
     onLoadMore: () -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onSearchSubmit: () -> Unit,
+    onNavigateToFavorites: () -> Unit = {},
     onThemeModeChange: ((ThemeMode) -> Unit)? = null
 ) {
     var themeMenuExpanded by remember { mutableStateOf(false) }
@@ -92,6 +96,12 @@ private fun RecipesListContent(
             TopAppBar(
                 title = { Text(stringResource(R.string.recipes_list_screen_topbar_title)) },
                 actions = {
+                    IconButton(onClick = onNavigateToFavorites) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = stringResource(R.string.recipes_list_screen_favorites_content_description)
+                        )
+                    }
                     if (onThemeModeChange != null) {
                         Box {
                             IconButton(
@@ -178,7 +188,7 @@ private fun RecipesListContent(
 
                     uiState.errorMessageResId != null && uiState.recipes.isEmpty() -> {
                         ErrorView(
-                            message = stringResource(uiState.errorMessageResId!!),
+                            message = stringResource(uiState.errorMessageResId),
                             onRetry = onRetry
                         )
                     }

@@ -34,9 +34,11 @@ android {
 }
 
 dependencies {
-
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    // Coroutines (for Flow in repository)
+    implementation(libs.coroutines.core)
 }
 

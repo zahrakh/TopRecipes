@@ -20,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleLeft
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.InsertLink
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -70,7 +72,8 @@ fun RecipeDetailsScreen(
         uiState = uiState,
         onBackClick = onBackClick,
         onRetry = { viewModel.loadRecipeDetails(recipeId.toString()) },
-        onSourceClick = { url -> viewModel.onSourceUrlClicked(url) }
+        onSourceClick = { url -> viewModel.onSourceUrlClicked(url) },
+        onFavoriteClick = { viewModel.toggleFavorite(recipeId.toString()) }
     )
 }
 
@@ -81,7 +84,8 @@ fun RecipeDetailsContent(
     uiState: RecipeDetailsUiState,
     onBackClick: () -> Unit,
     onRetry: () -> Unit,
-    onSourceClick: (url: String) -> Unit
+    onSourceClick: (url: String) -> Unit,
+    onFavoriteClick: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -90,6 +94,17 @@ fun RecipeDetailsContent(
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(Icons.Default.ArrowCircleLeft, contentDescription = stringResource(R.string.recipe_details_screen_nav_back_content_description))
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onFavoriteClick) {
+                        Icon(
+                            imageVector = if (uiState.recipeDetail?.isFavorite == true) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = stringResource(
+                                if (uiState.recipeDetail?.isFavorite == true) R.string.recipe_details_screen_favorite_content_description_remove
+                                else R.string.recipe_details_screen_favorite_content_description_add
+                            )
+                        )
                     }
                 }
             )

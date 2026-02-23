@@ -8,6 +8,8 @@
     <string name="recipe_details_screen_instructions_empty_placeholder">No step-by-step instructions available for this recipe.</string>
     <string name="recipe_details_screen_button_view_full_recipe_source">View Full Recipe Source</string>
     <string name="recipe_details_screen_toast_no_browser_found">No browser found to open link</string>
+    <string name="recipe_details_screen_favorite_content_description_add">Add to favorites</string>
+    <string name="recipe_details_screen_favorite_content_description_remove">Remove from favorites</string>
 
     <!-- Generic errors (single mapper: DomainErrorToMessageMapper) -->
     <string name="error_connection_timeout">Connection timeout. Please try again.</string>
@@ -33,4 +35,10 @@
     <string name="theme_mode_system">System default</string>
     <string name="theme_mode_light">Light</string>
     <string name="theme_mode_dark">Dark</string>
+
+    <!-- Favorites Screen -->
+    <string name="favorites_screen_title">Favorites</string>
+    <string name="favorites_screen_back_content_description">Back</string>
+    <string name="favorites_screen_empty_message">No favorite recipes yet. Mark recipes as favorites from their detail screen.</string>
+    <string name="recipes_list_screen_favorites_content_description">View favorite recipes</string>
 </resources>

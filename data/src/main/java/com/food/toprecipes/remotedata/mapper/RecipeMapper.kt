@@ -1,6 +1,5 @@
-package com.food.toprecipes.mapper
+package com.food.toprecipes.remotedata.mapper
 
-import android.util.Log
 import com.food.toprecipes.model.Ingredient
 import com.food.toprecipes.model.Recipe
 import com.food.toprecipes.model.RecipeDetail

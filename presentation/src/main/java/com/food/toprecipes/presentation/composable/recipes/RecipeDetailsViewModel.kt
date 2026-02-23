@@ -7,6 +7,7 @@ import com.food.toprecipes.presentation.base.BaseViewModel
 import com.food.toprecipes.presentation.mapper.DomainErrorToMessageMapper
 import com.food.toprecipes.presentation.R
 import com.food.toprecipes.usecase.GetRecipesDetailsUseCase
+import com.food.toprecipes.usecase.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,7 +25,8 @@ sealed class RecipeDetailsUiEffect {
 
 @HiltViewModel
 class RecipeDetailsViewModel @Inject constructor(
-    private val getRecipesDetailsUseCase: GetRecipesDetailsUseCase
+    private val getRecipesDetailsUseCase: GetRecipesDetailsUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : BaseViewModel<RecipeDetailsUiState, RecipeDetailsUiEffect>() {
 
     override fun initialState() = RecipeDetailsUiState()
@@ -56,6 +58,15 @@ class RecipeDetailsViewModel @Inject constructor(
         } else {
             setState { copy(errorMessageResId = R.string.error_unsafe_link_blocked) }
             setEffect(RecipeDetailsUiEffect.ShowError(R.string.error_unsafe_link_blocked))
+        }
+    }
+
+    fun toggleFavorite(recipeId: String) {
+        val detail = uiState.value.recipeDetail ?: return
+        if (detail.recipeDetailId != recipeId) return
+        viewModelScope.launch {
+            toggleFavoriteUseCase(recipeId, !detail.isFavorite)
+            setState { copy(recipeDetail = recipeDetail?.copy(isFavorite = !detail.isFavorite)) }
         }
     }
 }
