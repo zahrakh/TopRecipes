@@ -79,4 +79,9 @@ dependencies {
 
     // Browser (CustomTabsIntent)
     implementation(libs.browser)
+
+    // Unit tests
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
 }

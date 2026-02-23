@@ -14,7 +14,7 @@ class DomainErrorMapper @Inject constructor(
         return when (throwable) {
             is retrofit2.HttpException -> {
                 val code = throwable.code()
-                Log.d("DomainErrorMapper", throwable.message())
+              // Log.d("DomainErrorMapper", throwable.message())
                 when (code) {
                     503 -> DomainError.ServiceUnavailable(
                         code.toString(), stringProvider.getString(
