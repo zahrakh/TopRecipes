@@ -1,4 +1,4 @@
-package com.food.toprecipes.preferences
+package com.food.toprecipes.presentation.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.food.toprecipes.presentation.theme.ThemeMode
+import com.food.toprecipes.presentation.theme.ThemePreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

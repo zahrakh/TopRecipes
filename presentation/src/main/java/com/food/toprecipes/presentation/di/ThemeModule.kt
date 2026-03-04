@@ -1,7 +1,6 @@
-package com.food.toprecipes.di
+package com.food.toprecipes.presentation.di
 
-import com.food.toprecipes.preferences.ThemePreferences
-import com.food.toprecipes.preferences.ThemePreferencesImpl
+import com.food.toprecipes.presentation.theme.ThemePreferences
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -10,7 +9,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class AppModule {
+abstract class ThemeModule {
 
     @Binds
     @Singleton

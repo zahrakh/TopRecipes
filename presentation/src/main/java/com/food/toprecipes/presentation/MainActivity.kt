@@ -1,4 +1,4 @@
-package com.food.toprecipes
+package com.food.toprecipes.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,10 +12,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
-import com.food.toprecipes.preferences.ThemePreferences
 import com.food.toprecipes.presentation.navigation.RecipesNavHost
 import com.food.toprecipes.presentation.theme.ThemeMode
-import com.food.toprecipes.ui.theme.TopRecipesTheme
+import com.food.toprecipes.presentation.theme.ThemePreferences
+import com.food.toprecipes.presentation.theme.TopRecipesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

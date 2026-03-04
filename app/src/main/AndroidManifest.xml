@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TopRecipes">
         <activity
-            android:name=".MainActivity"
+            android:name="com.food.toprecipes.presentation.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.TopRecipes">
             <intent-filter>

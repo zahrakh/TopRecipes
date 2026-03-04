@@ -74,6 +74,9 @@ dependencies {
     // Core Android
     implementation(libs.androidx.core.ktx)
 
+    // DataStore (theme preference)
+    implementation(libs.datastore.preferences)
+
     // Coil for image loading
     implementation(libs.coil.compose)
 

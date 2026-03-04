@@ -1,4 +1,4 @@
-package com.food.toprecipes.ui.theme
+package com.food.toprecipes.presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
